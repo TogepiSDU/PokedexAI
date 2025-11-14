@@ -5,7 +5,7 @@ Pokédex AI 是一个基于AI的宝可梦图鉴系统，结合了宝可梦数据
 
 ## 技术栈
 - **框架**: FastAPI
-- **语言**: Python 3.10+
+- **语言**: Python 3.9+
 - **数据库**: MySQL
 - **外部API**: PokeAPI (宝可梦数据), 豆包API (AI问答)
 - **配置管理**: Pydantic Settings
@@ -17,16 +17,13 @@ Pokédex AI 是一个基于AI的宝可梦图鉴系统，结合了宝可梦数据
 PokedexAI/
 ├── .env                    # 环境变量配置文件
 ├── .env.example            # 环境变量示例文件
+├── .gitignore              # Git忽略文件
 ├── README.md               # 项目说明文档
-├── PROJECT_STRUCTURE.md    # 项目结构文档
 ├── main.py                 # 项目入口文件
 ├── requirements.txt        # 项目依赖
-├── test_api.py             # API测试脚本
-├── test_config.py          # 配置测试脚本
-├── test_doubao_config.py   # 豆包API配置测试脚本
-├── 《Pokédex AI 智能图鉴系统》技术方案设计文档（TDD）.md
-├── 《Pokédex AI 智能图鉴系统》需求文档（PRD）.md
-└── app/                    # 主应用代码目录
+├── app/                    # 主应用代码目录
+├── docs/                   # 文档目录
+└── tests/                  # 测试目录
     ├── __init__.py
     ├── api/               # API路由层
     │   ├── __init__.py
@@ -65,36 +62,46 @@ PokedexAI/
 ### 1. 根目录文件
 - **.env**: 存储项目的环境变量，包括数据库连接信息、API密钥等
 - **.env.example**: 环境变量示例文件，展示需要配置的变量名
+- **.gitignore**: Git版本控制的忽略文件配置
 - **main.py**: 项目的入口文件，启动FastAPI应用
 - **requirements.txt**: 列出项目所需的Python依赖包
 - **README.md**: 项目的主要说明文档
-- **测试文件**: 包括API测试、配置测试和豆包API配置测试
-- **设计文档**: 包含PRD（需求文档）和TDD（技术方案设计文档）
 
-### 2. app/api/ - API路由层
+### 2. docs/ - 文档目录
+- **PROJECT_STRUCTURE.md**: 项目结构文档
+- **《Pokédex AI 智能图鉴系统》技术方案设计文档（TDD）.md**: 技术方案设计文档
+- **《Pokédex AI 智能图鉴系统》需求文档（PRD）.md**: 需求文档
+
+### 3. tests/ - 测试目录
+- **test_api.py**: API测试脚本
+- **test_config.py**: 配置测试脚本
+- **test_doubao_config.py**: 豆包API配置测试脚本
+- **test_token_consumption.py**: 令牌消耗测试脚本
+
+### 4. app/api/ - API路由层
 - **router.py**: 注册所有API路由
 - **ask_api.py**: 实现问答相关的API接口，处理用户的宝可梦相关问题
 
-### 3. app/clients/ - 外部API客户端
+### 5. app/clients/ - 外部API客户端
 - **http_client.py**: 封装HTTP请求的基础客户端类
 - **pokeapi_client.py**: 与PokeAPI交互的客户端，获取宝可梦数据
 - **doubao_client.py**: 与豆包API交互的客户端，实现AI问答功能
 
-### 4. app/core/ - 核心配置
+### 6. app/core/ - 核心配置
 - **config.py**: 使用Pydantic Settings管理项目配置，从环境变量中读取配置信息
 
-### 5. app/db/ - 数据库相关
+### 7. app/db/ - 数据库相关
 - **base.py**: 数据库基础类，定义ORM基类
 - **models.py**: 定义数据库表结构的模型类
 - **session.py**: 管理数据库会话，提供数据库连接
 
-### 6. app/repositories/ - 数据访问层
+### 8. app/repositories/ - 数据访问层
 - **pokemon_repository.py**: 封装宝可梦数据的数据库操作
 
-### 7. app/schemas/ - 数据模型定义
+### 9. app/schemas/ - 数据模型定义
 - **ask_schema.py**: 定义问答相关的请求和响应数据模型
 
-### 8. app/services/ - 业务逻辑层
+### 10. app/services/ - 业务逻辑层
 - **pokemon_service.py**: 处理宝可梦数据的业务逻辑
 - **intent_parser_service.py**: 解析用户意图，识别用户的问题类型
 - **dex_qa_service.py**: 整合宝可梦数据和AI问答功能，提供完整的图鉴问答服务

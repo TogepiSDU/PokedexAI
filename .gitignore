@@ -1,45 +1,136 @@
 # -*- coding: utf-8 -*-
-# 虚拟环境
+# =============================================================================
+# 项目级 .gitignore
+# 包含Python后端和React前端的通用忽略规则
+# =============================================================================
+
+# ============================
+# Python 虚拟环境
+# ============================
 venv/
 env/
-.env/
+env.bak/
 *.venv/
+pip-selfcheck.json
 
-# IDE配置
+# ============================
+# IDE 和编辑器配置
+# ============================
 .idea/
 .vscode/
 *.swp
 *.swo
 *~
+*.sublime-workspace
+*.sublime-project
 
-# 编译文件
+# ============================
+# 编译和缓存文件
+# ============================
 __pycache__/
 *.py[cod]
 *$py.class
 
+# Python 静态类型检查缓存
+.mypy_cache/
+.dmypy.json
+
+# Ruff 缓存
+.ruff_cache/
+
+# ============================
 # 数据库文件
+# ============================
 *.db
+*.sqlite
 *.sqlite3
 
+# ============================
 # 环境配置文件
+# ============================
 .env
 .env.local
-.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.*
 
+# ============================
 # 日志文件
+# ============================
 *.log
 logs/
+.pylint.d/
 
+# ============================
 # 测试输出
-pytest_cache/
+# ============================
+.pytest_cache/
 .coverage
+.coverage.*
 coverage.xml
+htmlcov/
+test-results/
+tests/.pytest_cache/
+tests/__pycache__/
+.pytest_profile/*
 
+# ============================
 # 操作系统文件
+# ============================
 .DS_Store
 Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
 
-# 打包文件
+# Windows二进制文件
+.bin/
+*.exe
+*.dll
+*.so
+*.dylib
+
+# ============================
+# 打包和构建文件
+# ============================
 *.egg-info/
 dist/
 build/
+*.egg
+.pdm.toml
+pdm.lock
+pip-delete-this-directory.txt
+
+# ============================
+# React/Node.js 特定
+# ============================
+node_modules/
+.pnp
+.pnp.js
+.npm
+.eslintcache
+
+# 前端构建输出
+frontend/dist/
+frontend/build/
+*.tsbuildinfo
+
+# Vite 缓存
+vite.config.ts.timestamp-*
+
+# ============================
+# 其他
+# ============================
+.cache/
+.parcel-cache/
+.turbo/
+.cache-loader/

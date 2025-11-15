@@ -3,11 +3,11 @@ from typing import Optional
 
 class Settings(BaseSettings):
     # MySQL 数据库配置
-    mysql_host: str = "localhost"
-    mysql_port: int = 3306
-    mysql_user: str = "root"
-    mysql_password: str = "123456"
-    mysql_database: str = "pokedex_ai"
+    db_host: str = "localhost"
+    db_port: int = 3306
+    db_user: str = "root"
+    db_password: str = "123456"
+    db_name: str = "pokedex_ai"
     
     # Doubao API 配置
     doubao_api_key: str = ""
@@ -26,7 +26,7 @@ class Settings(BaseSettings):
     
     @property
     def database_url(self) -> str:
-        return f"mysql+pymysql://{self.mysql_user}:{self.mysql_password}@{self.mysql_host}:{self.mysql_port}/{self.mysql_database}?charset=utf8mb4"
+        return f"mysql+pymysql://{self.db_user}:{self.db_password}@{self.db_host}:{self.db_port}/{self.db_name}?charset=utf8mb4"
     
     class Config:
         env_file = ".env"

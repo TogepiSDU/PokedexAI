@@ -1,10 +1,16 @@
 import uvicorn
+import sys
+import io
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.router import api_router
 from app.db.base import Base
 from app.db.session import engine
 from app.core.config import settings
+
+# 设置系统默认编码为 UTF-8
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
 
 # 创建 FastAPI 应用实例
 app = FastAPI(
@@ -14,6 +20,13 @@ app = FastAPI(
     docs_url="/docs",
     redoc_url="/redoc"
 )
+
+# 设置默认响应编码
+@app.middleware("http")
+async def add_encoding_header(request, call_next):
+    response = await call_next(request)
+    response.headers["Content-Type"] = "application/json; charset=utf-8"
+    return response
 
 # 配置 CORS
 app.add_middleware(

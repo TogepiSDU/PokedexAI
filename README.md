@@ -1,4 +1,4 @@
-# Pokédex AI 智能图鉴系统 v1.0
+# Pokédex AI 智能图鉴系统 v1.1
 
 一个基于AI技术的智能宝可梦图鉴系统，提供宝可梦信息查询、智能问答等功能。
 
@@ -189,7 +189,6 @@ pytest tests/
 - [API文档](docs/API文档.md) - 详细的API接口说明
 - [技术方案设计文档](docs/《Pokédex AI 智能图鉴系统》技术方案设计文档（TDD）.md)
 - [需求文档](docs/《Pokédex AI 智能图鉴系统》需求文档（PRD）.md)
-- [项目结构文档](docs/PROJECT_STRUCTURE.md)
 - [技术文档](docs/tech-doc.md) - 后端技术架构详细文档
 - [版本迭代记录](docs/版本迭代记录.md) - 版本历史和后续规划
 

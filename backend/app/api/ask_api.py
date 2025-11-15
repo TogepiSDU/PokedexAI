@@ -1,13 +1,21 @@
+"""图鉴问答接口路由
+
+路由前缀：/api/v1/ask
+请求模型：AskRequest
+响应模型：AskResponse
+错误处理：统一由异常处理器负责
+"""
 from fastapi import APIRouter, Depends, HTTPException
+from app.core.exceptions import PokemonNotFoundError, LLMError, IntentParseError
 from sqlalchemy.orm import Session
 from app.db.session import get_db
 from app.schemas.ask_schema import AskRequest, AskResponse
 from app.services.dex_qa_service import DexQAService
 
-# 创建路由实例
+# 创建路由实例（/api/v1/ask），所有问答接口在此挂载
 router = APIRouter(prefix="/ask", tags=["图鉴问答"])
 
-# 创建服务实例
+# 创建服务实例：封装意图解析、数据获取、回答生成
 dex_qa_service = DexQAService()
 
 
@@ -50,9 +58,15 @@ async def ask_pokemon_question(request: AskRequest, db: Session = Depends(get_db
         # 调用服务处理问题
         result = await dex_qa_service.answer_question(db, request.question)
         return AskResponse(**result)
+    except PokemonNotFoundError:
+        # 直接传递PokemonNotFoundError异常
+        raise
+    except IntentParseError:
+        # 直接传递IntentParseError异常
+        raise
     except HTTPException:
         # 如果是已定义的 HTTP 异常，直接抛出
         raise
     except Exception as e:
-        # 其他异常统一处理为服务器错误
-        raise HTTPException(status_code=500, detail=f"处理请求时发生错误: {str(e)}")
+        # 使用自定义LLMError替代通用HTTPException
+        raise LLMError(message=f"处理请求时发生错误: {str(e)}")

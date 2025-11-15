@@ -4,7 +4,7 @@ from typing import Dict, Optional, Any
 
 class AskRequest(BaseModel):
     """图鉴问答请求模型"""
-    question: str = Field(..., description="用户的自然语言问题")
+    question: str = Field(..., min_length=1, description="用户的自然语言问题")
 
 
 class IntentSchema(BaseModel):

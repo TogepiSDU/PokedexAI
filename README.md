@@ -2,22 +2,25 @@
 
 一个基于AI技术的智能宝可梦图鉴系统，提供宝可梦信息查询、智能问答等功能。
 
+> **重要提示**：当前版本仅支持宝可梦特性和种族值的查询功能，进化链及其他相关服务暂未在问答逻辑中实现，计划在后续版本中更新。
+
 ## 📋 功能特性
 
-- **宝可梦信息查询**：获取宝可梦的详细信息，包括属性、能力、进化链等
-- **智能问答系统**：基于AI的宝可梦相关问题回答
-- **意图识别**：自动识别用户查询意图
-- **RESTful API**：提供标准化的API接口
-- **数据持久化**：使用数据库存储宝可梦信息
+- **宝可梦信息查询**：获取宝可梦的详细信息，包括属性、特性、种族值等
+- **智能问答系统**：基于AI的宝可梦相关问题回答，支持特性和种族值查询
+- **意图识别**：自动识别用户查询意图和宝可梦名称
+- **RESTful API**：提供标准化的API接口，主要包含`/ask`问答接口和`/health`健康检查接口
+- **数据持久化**：使用MySQL数据库存储宝可梦信息，支持数据缓存
 
 ## 🛠 技术栈
 
 - **后端框架**：FastAPI
 - **编程语言**：Python 3.9+
-- **数据库**：SQLite (默认)
+- **数据库**：MySQL
 - **ORM**：SQLAlchemy
 - **AI模型**：豆包API
 - **宝可梦数据**：PokeAPI
+- **异步支持**：支持异步API请求和处理
 
 ## 🚀 快速开始
 
@@ -69,15 +72,16 @@ APP_NAME=Pokédex AI
 APP_VERSION=1.0.0
 DEBUG=True
 
-# 数据库配置
-DATABASE_URL=sqlite:///./pokedex.db
+# 数据库配置 (MySQL)
+DATABASE_URL=mysql+pymysql://username:password@localhost:3306/pokedex
 
 # 豆包AI配置
 DOUBAO_API_KEY=your_api_key
-DOUBAO_API_SECRET=your_api_secret
+DOUBAO_API_BASE_URL=https://api.doubao.com/
 
 # PokeAPI配置
 POKEAPI_BASE_URL=https://pokeapi.co/api/v2/
+POKEAPI_TIMEOUT=10
 ```
 
 5. **运行应用**
@@ -120,14 +124,14 @@ PokedexAI/
 #### 智能问答接口
 
 ```
-POST /api/ask
+POST /ask
 ```
 
 请求体：
 
 ```json
 {
-  "question": "皮卡丘的属性是什么？"
+  "question": "皮卡丘的属性和种族值是什么？"
 }
 ```
 
@@ -135,28 +139,40 @@ POST /api/ask
 
 ```json
 {
-  "answer": "皮卡丘是电属性的宝可梦。",
-  "intent": "attribute_query"
-}
-```
+  "answer": "皮卡丘是电属性的宝可梦，种族值总和为320...",
+  "pokemon_name": "pikachu",
+  "pokemon_id": 25,
+  "intent": {
+      "pokemon_name": "pikachu",
+      "original_name": "皮卡丘",
+      "intent_type": "basic_info",
+      "detail_level": "normal"
+  }
+}```
 
-#### 宝可梦信息查询
+#### 健康检查接口
 
 ```
-GET /api/pokemon/{name}
+GET /health
 ```
 
 响应：
 
 ```json
 {
-  "name": "pikachu",
-  "chinese_name": "皮卡丘",
-  "types": ["electric"],
-  "height": 4,
-  "weight": 60,
-  "abilities": ["static", "lightning-rod"]
-}
+  "status": "healthy",
+  "timestamp": "2025-11-14T12:00:00Z"
+}```
+
+### 功能限制说明
+
+当前版本（v1.0）支持以下问题类型：
+- 宝可梦的属性查询
+- 宝可梦的种族值查询
+- 宝可梦的特性查询
+- 宝可梦的基本信息查询（身高、体重等）
+
+**限制**：关于进化链的问题可能返回有限信息，因为当前问答逻辑未完全集成进化链数据。
 ```
 
 ## 🧪 测试
@@ -169,9 +185,13 @@ pytest tests/
 
 ## 📚 文档
 
+- [文档目录](docs/文档目录.md) - 所有文档的导航索引
+- [API文档](docs/API文档.md) - 详细的API接口说明
 - [技术方案设计文档](docs/《Pokédex AI 智能图鉴系统》技术方案设计文档（TDD）.md)
 - [需求文档](docs/《Pokédex AI 智能图鉴系统》需求文档（PRD）.md)
 - [项目结构文档](docs/PROJECT_STRUCTURE.md)
+- [技术文档](docs/tech-doc.md) - 后端技术架构详细文档
+- [版本迭代记录](docs/版本迭代记录.md) - 版本历史和后续规划
 
 ## 🔧 开发指南
 

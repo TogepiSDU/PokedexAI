@@ -26,24 +26,25 @@ async def ask_pokemon_question(request: AskRequest, db: Session = Depends(get_db
     
     Example:
         请求体:
-        ```json
+        ```
         {"question": "喷火龙的属性和种族值？"}
         ```
         
         响应:
-        ```json
+        
         {
             "answer": "喷火龙是火/飞行属性，种族值总和534...",
             "pokemon_name": "charizard",
             "pokemon_id": 6,
-            "intent": {
+            "intent": 
+            {
                 "pokemon_name": "charizard",
                 "original_name": "喷火龙",
                 "intent_type": "basic_info",
                 "detail_level": "normal"
             }
         }
-        ```
+        
     """
     try:
         # 调用服务处理问题

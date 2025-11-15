@@ -21,11 +21,13 @@ app = FastAPI(
     redoc_url="/redoc"
 )
 
-# 设置默认响应编码
+# 设置API响应编码
 @app.middleware("http")
 async def add_encoding_header(request, call_next):
     response = await call_next(request)
-    response.headers["Content-Type"] = "application/json; charset=utf-8"
+    # 只对API路由设置JSON编码头，避免干扰Swagger UI
+    if request.url.path.startswith("/api/"):
+        response.headers["Content-Type"] = "application/json; charset=utf-8"
     return response
 
 # 配置 CORS

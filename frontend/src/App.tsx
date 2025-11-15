@@ -4,6 +4,7 @@
  */
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import ReactMarkdown from "react-markdown";
 
 /**
  * Pokédex AI 主页
@@ -306,7 +307,7 @@ export default function App() {
             {/* 主要内容 */}
             {main && (
               <div className={`main-content ${main.length > 100 ? 'long-content' : 'short-content'}`}>
-                <p>{main}</p>
+                <ReactMarkdown>{main}</ReactMarkdown>
               </div>
             )}
             
@@ -321,7 +322,7 @@ export default function App() {
                   {points.map((point, index) => (
                     <li key={index} className={`point-item ${index % 2 === 0 ? 'even' : 'odd'}`}>
                       <span className="point-number">{index + 1}.</span>
-                      <span className="point-text">{point}</span>
+                      <span className="point-text"><ReactMarkdown>{point}</ReactMarkdown></span>
                     </li>
                   ))}
                 </ul>
